@@ -72,7 +72,25 @@ class WeatherAlerts:
 
     """Returns any weather alerts at the provided location."""
 
-    pass
+    def __init__(self, q_string):
+        self.q_string = q_string
+
+    def run(self):
+        url = 'http://api.wunderground.com/api/{key}/alerts/q/{zip}.json'.format(
+                key=secret_key,
+                zip=self.q_string
+            )
+
+        weather_alerts = requests.get(url).json()
+        alerts = ''
+        if not weather_alerts['alerts']:
+            alerts = 'Whew! No local alerts.'
+        else:
+            alerts += weather_alerts['alerts'][0]['date'] + "\n\n"
+            alerts += weather_alerts['alerts'][0]['description'] + "\n"
+            alerts += weather_alerts['alerts'][0]['message']
+
+        return alerts
 
 
 class AllHurricanes:
@@ -80,3 +98,12 @@ class AllHurricanes:
     """Returns info on any hurricans regardless of location."""
 
     pass
+
+
+
+
+
+
+
+
+

@@ -45,3 +45,29 @@ def test_sunrise_sunset(m):
     assert res['sun_phase']['sunrise']['minute'] == "32"
     assert res['sun_phase']['sunset']['hour'] == "18"
     assert res['sun_phase']['sunset']['minute'] == "39"
+
+
+@requests_mock.Mocker()
+def test_heat_alert(m):
+    with open('alert_heat.json') as heat_alert:
+        m.get('http://api.wunderground.com/api/{}/alerts/q/50301.json'.format(secret_key), text=heat_alert.read())
+
+    alerts = WeatherAlerts('50301')
+    res = alerts.run()
+
+    assert res[:12] == '11:14 am CDT'
+    assert res[48:61] == 'Heat advisory'
+    assert res[-6:-3:] == 'Mjb'
+
+
+@requests_mock.Mocker()
+def test_empty_alert(m):
+    with open('alert_blank.json') as empty_alert:
+        m.get('http://api.wunderground.com/api/{}/alerts/q/27104.json'.format(secret_key), text=empty_alert.read())
+
+    alerts = WeatherAlerts('27104')
+    res = alerts.run()
+
+    print(res)
+
+    assert res == 'Whew! No local alerts.'
