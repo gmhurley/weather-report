@@ -1,4 +1,4 @@
-from weather_report_classes import CurrentConditions, TenDayForcast
+from weather_report_classes import CurrentConditions, TenDayForcast, SunriseSunset
 
 zip_code = input('Please enter a zip code: ')
 
@@ -14,15 +14,23 @@ template = ("\nThe current weather conditions for {location}:\n\n"
             "As of:\n"
             "{time}\n\n"
             "10 Day forecast:\n\n"
-            "{ten_day}\n"
+            "{ten_day}\n\n"
+            "Sunrise/Sunset Times:\n"
+            "Sunrise: {sunrise}\n"
+            "Sunset: {sunset}\n"
             ""
             )
 
 
 cond = CurrentConditions(zip_code).run()
+
 ten_day = TenDayForcast(zip_code).run()
 ten_day_lst = [x['title'] + ': ' + x['fcttext'] for x in ten_day]
 ten_day_str = '\n\n'.join(ten_day_lst)
+
+sun = SunriseSunset(zip_code).run()
+sunrise = sun['sun_phase']['sunrise']['hour'] + ":" + sun['sun_phase']['sunrise']['minute']
+sunset = sun['sun_phase']['sunset']['hour'] + ":" + sun['sun_phase']['sunset']['minute']
 
 print(template.format(location=cond[0],
                       temp=cond[1],
@@ -33,4 +41,6 @@ print(template.format(location=cond[0],
                       wind_speed=cond[7],
                       wind_dir=cond[8],
                       time=cond[4][16:],
-                      ten_day=ten_day_str))
+                      ten_day=ten_day_str,
+                      sunrise=sunrise,
+                      sunset=sunset))
