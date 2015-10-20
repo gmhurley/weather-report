@@ -29,3 +29,19 @@ def test_ten_day(m):
 
     assert res[0]['title'] == 'Tuesday'
     assert res[19]['fcttext'] == 'Partly cloudy skies early followed by mostly cloudy skies and a few showers later at night. Low 39F. Winds light and variable. Chance of rain 30%.'
+
+
+@requests_mock.Mocker()
+def test_sunrise_sunset(m):
+    with open('sunrise_sunset.json') as sunrise_sunset:
+        m.get('http://api.wunderground.com/api/{}/astronomy/q/27104.json'.format(secret_key), text=sunrise_sunset.read())
+
+    sunrise_sunset_times = SunriseSunset('27104')
+    res = sunrise_sunset_times.run()
+
+    print(res)
+
+    assert res['sun_phase']['sunrise']['hour'] == "7"
+    assert res['sun_phase']['sunrise']['minute'] == "32"
+    assert res['sun_phase']['sunset']['hour'] == "18"
+    assert res['sun_phase']['sunset']['minute'] == "39"

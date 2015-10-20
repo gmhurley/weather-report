@@ -55,7 +55,17 @@ class SunriseSunset:
 
     """Returns the sunrise and sunset times at the provided location."""
 
-    pass
+    def __init__(self, q_string):
+        self.q_string = q_string
+
+    def run(self):
+        url = 'http://api.wunderground.com/api/{key}/astronomy/q/{zip}.json'.format(
+                key=secret_key,
+                zip=self.q_string
+            )
+        sunrise_sunset = requests.get(url).json()
+
+        return sunrise_sunset
 
 
 class WeatherAlerts:
