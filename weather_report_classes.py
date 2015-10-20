@@ -6,7 +6,9 @@ headers = {}
 
 
 class CurrentConditions:
+
     """Returns the current conditions at the provided location."""
+
     def __init__(self, q_string):
         self.q_string = q_string
 
@@ -30,21 +32,30 @@ class CurrentConditions:
 
         return location, temp, feels_like, weather, time, visibility, today_perc, wind_speed, wind_dir
 
+
 class TenDayForcast:
+
     """Returns the 10 day forcast at the provided location."""
+
     pass
 
 
 class SunriseSunset:
+
     """Returns the sunrise and sunset times at the provided location."""
+
     pass
 
 
 class WeatherAlerts:
+
     """Returns any weather alerts at the provided location."""
+
     pass
 
 
 class AllHurricanes:
+
     """Returns info on any hurricans regardless of location."""
+
     pass
