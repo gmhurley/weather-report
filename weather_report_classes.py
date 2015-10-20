@@ -37,7 +37,18 @@ class TenDayForcast:
 
     """Returns the 10 day forcast at the provided location."""
 
-    pass
+    def __init__(self, q_string):
+        self.q_string = q_string
+
+    def run(self):
+        url = 'http://api.wunderground.com/api/{key}/forecast10day/q/{zip}.json'.format(
+                key=secret_key,
+                zip=self.q_string
+            )
+
+        ten_day = requests.get(url).json()
+
+        return ten_day['forecast']['txt_forecast']['forecastday']
 
 
 class SunriseSunset:

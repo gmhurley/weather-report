@@ -1,9 +1,9 @@
-from weather_report_classes import CurrentConditions
+from weather_report_classes import CurrentConditions, TenDayForcast
 
 zip_code = input('Please enter a zip code: ')
 
 
-template = ("The current weather conditions for {location}:\n"
+template = ("\nThe current weather conditions for {location}:\n\n"
             "Tempature: {temp}" + u"\u00B0" + "F\n"
             "Feels Like: {feels}" + u"\u00B0" + "F\n"
             "Conditions: {cond}\n"
@@ -12,11 +12,17 @@ template = ("The current weather conditions for {location}:\n"
             "Wind Speed: {wind_speed} mph\n"
             "Wind Direction: {wind_dir}\n"
             "As of:\n"
-            "{time}"
+            "{time}\n\n"
+            "10 Day forecast:\n\n"
+            "{ten_day}\n"
+            ""
             )
 
 
 cond = CurrentConditions(zip_code).run()
+ten_day = TenDayForcast(zip_code).run()
+ten_day_lst = [x['title'] + ': ' + x['fcttext'] for x in ten_day]
+ten_day_str = '\n\n'.join(ten_day_lst)
 
 print(template.format(location=cond[0],
                       temp=cond[1],
@@ -26,4 +32,5 @@ print(template.format(location=cond[0],
                       perc=cond[6],
                       wind_speed=cond[7],
                       wind_dir=cond[8],
-                      time=cond[4][16:]))
+                      time=cond[4][16:],
+                      ten_day=ten_day_str))
