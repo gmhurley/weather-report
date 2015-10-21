@@ -1,5 +1,8 @@
 import os
 import requests
+import requests_cache
+
+requests_cache.install_cache()
 
 secret_key = os.environ['WUG_Key']
 headers = {}
@@ -103,10 +106,13 @@ class AllHurricanes:
             )
 
         hurricane_data = ''
-        hurricanes = requests.get(url).json()
+        hurricane_request = requests.get(url)
+        hurricanes = hurricane_request.json()
 
         for hurricane in hurricanes['currenthurricane']:
             hurricane_data += "Name: " + hurricane['stormInfo']['stormName_Nice'] + "\n"
             hurricane_data += "Speed: " + str(hurricane['Current']['WindSpeed']['Mph']) + "\n\n"
+
+        hurricane_data += "From cache: " + str(hurricane_request.from_cache)
 
         return hurricane_data

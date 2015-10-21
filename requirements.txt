@@ -1,3 +1,4 @@
 requests
 requests-mock
 nose
+requests-cache
