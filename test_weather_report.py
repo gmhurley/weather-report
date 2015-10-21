@@ -71,3 +71,14 @@ def test_empty_alert(m):
     print(res)
 
     assert res == 'Whew! No local alerts.'
+
+
+@requests_mock.Mocker()
+def test_hurricane(m):
+    with open('hurricane.json') as hurricane:
+        m.get('http://api.wunderground.com/api/{}/currenthurricane/view.json'.format(secret_key), text=hurricane.read())
+
+    hurricanes = AllHurricanes
+    res = hurricanes.run()
+
+    assert res[:20] == 'Name: Hurricane Olaf'

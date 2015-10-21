@@ -1,4 +1,4 @@
-from weather_report_classes import CurrentConditions, TenDayForcast, SunriseSunset, WeatherAlerts
+from weather_report_classes import CurrentConditions, TenDayForcast, SunriseSunset, WeatherAlerts, AllHurricanes
 
 zip_code = input('Please enter a zip code: ')
 
@@ -19,7 +19,10 @@ template = ("\nThe current weather conditions for {location}:\n\n"
             "Sunrise: {sunrise}\n"
             "Sunset: {sunset}\n\n"
             "Weather Alerts:\n"
-            "{alerts}"
+            "{alerts}\n\n"
+            "Hurricanes World Wide:\n"
+            "{hurricanes}"
+            ""
             )
 
 
@@ -35,6 +38,8 @@ sunset = sun['sun_phase']['sunset']['hour'] + ":" + sun['sun_phase']['sunset']['
 
 alerts = WeatherAlerts(zip_code).run()
 
+hurricanes = AllHurricanes.run()
+
 print(template.format(location=cond[0],
                       temp=cond[1],
                       feels=cond[2],
@@ -47,4 +52,5 @@ print(template.format(location=cond[0],
                       ten_day=ten_day_str,
                       sunrise=sunrise,
                       sunset=sunset,
-                      alerts=alerts))
+                      alerts=alerts,
+                      hurricanes=hurricanes))

@@ -95,15 +95,18 @@ class WeatherAlerts:
 
 class AllHurricanes:
 
-    """Returns info on any hurricans regardless of location."""
+    """Returns info on any hurricanes regardless of location."""
 
-    pass
+    def run():
+        url = 'http://api.wunderground.com/api/{key}/currenthurricane/view.json'.format(
+                key=secret_key
+            )
 
+        hurricane_data = ''
+        hurricanes = requests.get(url).json()
 
+        for hurricane in hurricanes['currenthurricane']:
+            hurricane_data += "Name: " + hurricane['stormInfo']['stormName_Nice'] + "\n"
+            hurricane_data += "Speed: " + str(hurricane['Current']['WindSpeed']['Mph']) + "\n\n"
 
-
-
-
-
-
-
+        return hurricane_data
